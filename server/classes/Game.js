@@ -2,6 +2,7 @@
 
 const Player = require('./Player');
 const Map = require('./Map');
+const Building = require('./Building');
 
 class Game{
 
@@ -30,6 +31,23 @@ class Game{
             tempPlayer.MakeAi(i);
             this.playerList.push(tempPlayer);
         }
+    }
+
+    GenerateBuildings(){
+        if(!Array.isArray(this.objects)){
+            this.objects = [];
+        }
+        
+        let buildingCount = Math.floor(Math.random()*10);
+
+        
+        for(let i = 0; i < buildingCount; i++){
+            let building = new Building();
+            building.GenerateLoot();
+
+            this.objects.push(building);
+        }
+
     }
 
     Setup(deltaTime){
@@ -79,7 +97,6 @@ class Game{
             }
         }
 
-        console.log("Game tick");
 
         if(!this.playerList[0].alive){
             this.running = false;

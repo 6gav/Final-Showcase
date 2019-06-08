@@ -32,10 +32,12 @@ class GameManager{
             return {error: "Game does not exist"};
         }
 
-        if(currentGame.hostID == userID){
+        if(currentGame.hostID == userID && !currentGame.running){
+            currentGame.GenerateBuildings();
+            
             currentGame.AddAi(3);
 
-            currentGame.StartGame(1000);
+            currentGame.StartGame(200);
         }
 
         return;
@@ -88,6 +90,9 @@ class GameManager{
 
             //Uid, GameID, Params
             client.on("pInput", (info) => {
+                let currentGame = this.gameList[info.gameID];
+
+                currentGame.PlayerInput(info.uid, info.params);
 
             }); 
         });

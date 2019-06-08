@@ -7,16 +7,14 @@ class grid extends Component {
     }
     constructor(props){
         super(props);
-        console.log(props);
 
     }
 
     StartTimer(){
-        setInterval(() => this.GetMap(), 1000);
+        setInterval(() => this.GetMap(), 200);
     }
 
     componentWillReceiveProps(props){
-        console.log(props);
         if(props.Api){
             
             this.setState({Api: props.Api});
@@ -43,6 +41,42 @@ function Table(props){
     if(!map){
         return null;
     }
+
+    let list = [];
+    map.forEach(column => {
+        let row = [];
+        column.forEach(item => {
+            if(item.objects){
+                let char = item.objects[0];
+                let playerFlag = 0;
+                if(char.type === "bot"){
+                    playerFlag = 0;
+                }
+                else {
+                    playerFlag = 1;
+                }
+
+                let style = {color: "rgb(" + 1.5*char.health + ", 0, " + 255*playerFlag +")"};
+                
+                
+                
+                if(char.health > 0){
+                    row.push(<td style={style}>#</td>);
+
+                }
+                else {
+                    row.push(<td style={style}>ㅃ</td>);
+                }
+            }
+            else{
+                row.push(<td>_</td>);
+            }
+        })
+        row = (<tr>{row}</tr>)
+        list.push(row);
+    });
+
+    return(<table><tbody>{list}</tbody></table>);
 
 }
 

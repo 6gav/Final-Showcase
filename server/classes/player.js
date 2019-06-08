@@ -37,11 +37,18 @@ class Player{
     }
 
     Update(){
+        if(this.health <= 0){
+            return;
+        }
+
         this.TurnCount++;
 
         this.TurnCount %= 10;
 
-        this.char.target = {x: Math.floor(Math.random() * 3) - 1, y: Math.floor(Math.random() * 3) - 1};
+        console.log(this.type);
+        if(this.type == 'bot' && this.TurnCount == 0){
+            this.char.target = {x: Math.floor(Math.random() * 3) - 1, y: Math.floor(Math.random() * 3) - 1};
+        }
 
         //Call AI and get result
 
@@ -52,7 +59,6 @@ class Player{
 
         this.char.Update();
 
-        console.log({x: this.GetPosition().x, y: this.GetPosition().y, health: this.health});
     }
 
     Attack(enemy){
@@ -116,13 +122,17 @@ class Player{
                 this.char.target = params.direction;   
             break;
             case 'enemy':
-                if(this.mood.includes("fight")){
+                if(this.mood == 'fight'){
                     this.combat = true;
                     this.enemyTarget = params.enemy;
                 }
                 else{
                     this.combat = false;
                 }
+            break;
+            case 'mood':
+                this.mood = params.mood;
+                
             break;
         }
     }

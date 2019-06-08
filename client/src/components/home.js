@@ -48,6 +48,32 @@ class home extends Component {
     }
 
 
+    SendInput(input){
+        let direction;
+
+        switch (input) {
+            case "Up":
+                direction = {x: 0, y: -1};
+                break;
+            case "Down":
+                direction = {x: 0, y: 1};
+                break;
+            case "Left":
+                direction = {x: -1, y: 0};
+                break;
+            case "Right":
+                direction = {x: 1, y: 0};                
+                break;
+
+            default:
+                break;
+        }
+
+        let info = {uid: 5000, gameID: 2000, params: {type: "direction", direction: direction}}
+
+        this.Api.Emit("pInput", (info));
+    }
+
     render() {
         return (
             <div>
@@ -55,6 +81,12 @@ class home extends Component {
                 <div className="StartButtons">
                     <button onClick={this.CreateGame}>Create game</button>      
                     <button onClick={this.StartGame}>Start game</button>
+                </div>
+                <div className="DirectionButtons">
+                    <button onClick={() => this.SendInput("Up")}>Left</button>
+                    <button onClick={() => this.SendInput("Down")}>Right</button>
+                    <button onClick={() => this.SendInput("Left")}>Up</button>
+                    <button onClick={() => this.SendInput("Right")}>Down</button>
                 </div>
                 <Grid Api={this.Api}/>
             </div>
